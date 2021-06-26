@@ -100,21 +100,23 @@
         <hr>
         <asp:Repeater runat="server" id="RepMain">
           <ItemTemplate>
-            <h3><asp:Label runat="server" id="LblTitle" Text='<%# HttpUtility.HtmlEncode(Eval("TITLE"))%>'/></h3>
-            <p>
-              <asp:Label runat="server" id="LblMessage" Text='<%# SetLink(HttpUtility.HtmlEncode(Eval("MESSAGE")).Replace("\n", "<br/>"))%>'/>
-            </p>
-            <div class="info">
+            <div id='item<%# HttpUtility.HtmlEncode(Eval("NO"))%>'>
+              <h3><asp:Label runat="server" id="LblTitle" Text='<%# HttpUtility.HtmlEncode(Eval("TITLE"))%>'/></h3>
               <p>
-                <asp:Label runat="server" id="LblTimestamp" Text='<%# HttpUtility.HtmlEncode(Eval("TS"))%>'/>
-                [<asp:Label runat="server" id="LblCategory" Text='<%# HttpUtility.HtmlEncode(Eval("CATEGORY"))%>'/>]
-                <asp:Label runat="server" id="LblAuthor" Text='<%# HttpUtility.HtmlEncode(Eval("AUTHOR"))%>'/>
-                (<asp:Label runat="server" id="LblIp" Text='<%# HttpUtility.HtmlEncode(Eval("IP"))%>'/>)
-                <asp:LinkButton runat="server" id="LbtUpdate" Text="変更" CommandName='<%# Eval("NO")%>' CommandArgument='<%# Eval("TS")%>' OnCommand="LbtUpdate_Click"/>
-                <asp:LinkButton runat="server" id="LbtDelete" Text="削除" CommandName='<%# Eval("NO")%>' CommandArgument='<%# Eval("TS")%>' OnClientClick='return confirm("削除してもよろしいですか？");' OnCommand="LbtDelete_Click"/>
+                <asp:Label runat="server" id="LblMessage" Text='<%# SetLink(HttpUtility.HtmlEncode(Eval("MESSAGE")).Replace("\n", "<br/>"))%>'/>
               </p>
+              <div class="info">
+                <p>
+                  <asp:Label runat="server" id="LblTimestamp" Text='<%# HttpUtility.HtmlEncode(Eval("TS"))%>'/>
+                  [<asp:Label runat="server" id="LblCategory" Text='<%# HttpUtility.HtmlEncode(Eval("CATEGORY"))%>'/>]
+                  <asp:Label runat="server" id="LblAuthor" Text='<%# HttpUtility.HtmlEncode(Eval("AUTHOR"))%>'/>
+                  (<asp:Label runat="server" id="LblIp" Text='<%# HttpUtility.HtmlEncode(Eval("IP"))%>'/>)
+                  <asp:LinkButton runat="server" id="LbtUpdate" Text="変更" CommandName='<%# Eval("NO")%>' CommandArgument='<%# Eval("TS")%>' OnCommand="LbtUpdate_Click"/>
+                  <asp:LinkButton runat="server" id="LbtDelete" Text="削除" CommandName='<%# Eval("NO")%>' CommandArgument='<%# Eval("TS")%>' OnClientClick='return confirm("削除してもよろしいですか？");' OnCommand="LbtDelete_Click"/>
+                </p>
+              </div>
+              <hr>
             </div>
-            <hr>
           </ItemTemplate>
         </asp:Repeater>
         <div class="input-group">

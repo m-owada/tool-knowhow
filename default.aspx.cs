@@ -112,9 +112,10 @@ public partial class Knowhow : System.Web.UI.Page
     
     protected void BtnCancel_Click(object sender, EventArgs e)
     {
+        var no = Session_Get("UPDATE");
         Session.Remove("UPDATE");
         Session.Remove("TIMESTAMP");
-        Response.Redirect(Request.Url.OriginalString);
+        Response.Redirect(Request.Url.OriginalString + "#item" + no);
     }
     
     private SQLiteConnectionStringBuilder ConnectionString_Get()
@@ -173,8 +174,14 @@ public partial class Knowhow : System.Web.UI.Page
     private void Page_Search(SQLiteCommand cmd)
     {
         var search = this.Session_Get("SEARCH");
-        cmd.CommandText = "SELECT * FROM T_ITEMS WHERE (TITLE LIKE '%' || @SEARCH || '%' OR AUTHOR LIKE '%' || @SEARCH || '%' OR MESSAGE LIKE '%' || @SEARCH || '%') AND DELFLG = 0 ORDER BY TS DESC;";
-        cmd.Parameters.Add(new SQLiteParameter("@SEARCH", search));
+        var arr = search.Split(' ');
+        var buf = "";
+        for(int i = 0; i < arr.Length; i++)
+        {
+            buf += " AND (TITLE LIKE '%' || @SEARCH" + i.ToString() + " || '%' OR AUTHOR LIKE '%' || @SEARCH" + i.ToString() + " || '%' OR MESSAGE LIKE '%' || @SEARCH" + i.ToString() + " || '%')";
+            cmd.Parameters.Add(new SQLiteParameter("@SEARCH" + i.ToString(), arr[i]));
+        }
+        cmd.CommandText = "SELECT * FROM T_ITEMS WHERE DELFLG = 0 " + buf + " ORDER BY TS DESC;";
         using(var reader = cmd.ExecuteReader())
         {
             var dt = new DataTable();
