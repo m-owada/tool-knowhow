@@ -37,11 +37,13 @@
           <asp:Button runat="server" id="BtnSend" Text="送信" ValidationGroup="input-validation" OnClick="BtnSend_Click"/>
         </p>
         <p>
-          <asp:Label runat="server" id="LblSql" Text=""/>
+          <asp:Label runat="server" id="LblSql" Text="" style="color:red;"/>
           <asp:GridView runat="server" id="GrdSql">
             <HeaderStyle BackColor="lightsteelblue"/>
           </asp:GridView>
         </p>
+        <asp:HiddenField runat="server" id="HdnKey"/>
+        <asp:Button runat="server" id="BtnKey" Text="" style="display:none;" OnClick="BtnKey_Click"/>
       </div>
     </form>
   </body>

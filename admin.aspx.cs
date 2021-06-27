@@ -1,4 +1,5 @@
 using System;
+using System.Configuration;
 using System.Data;
 using System.Data.SQLite;
 using System.Web.UI.WebControls;
@@ -9,6 +10,7 @@ public partial class Admin : System.Web.UI.Page
     {
         if(!IsPostBack)
         {
+            ClientScript.RegisterStartupScript(this.GetType(), "prompt", "document.getElementById('" + HdnKey.ClientID + "').value=prompt('管理キーを入力してください。','');document.getElementById('" + BtnKey.ClientID + "').click();", true);
             BtnSend.Attributes["onclick"] = "this.disabled=true;" + ClientScript.GetPostBackEventReference(BtnSend, null) + ";";
         }
     }
@@ -27,6 +29,20 @@ public partial class Admin : System.Web.UI.Page
             {
                 this.Page_Set(cmd);
             }
+        }
+    }
+    
+    protected void BtnKey_Click(object sender, EventArgs e)
+    {
+        if(HdnKey.Value == ConfigurationManager.AppSettings["admin"])
+        {
+            BtnSend.Enabled = true;
+            LblSql.Text = "";
+        }
+        else
+        {
+            BtnSend.Enabled = false;
+            LblSql.Text = "エラー (管理キーに誤りがあります。)";
         }
     }
     
